@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello QuestionController!
+{% endblock %}
+
+{% block body %}
+	{% if result %}
+		<div class="alert alert-success">
+			<h2 class="alert-title">
+				{{ result.city.name }}
+				(Zone
+				{{ result.city.zone }})
+			</h2>
+			<hr>
+
+			<h3>Limites de revenus :</h3>
+			<ul>
+				<li>Personne seule :
+					{{result.city.alone }}
+					€</li>
+				<li>Couple :
+					{{result.city.couple }}
+					€</li>
+				<li>Seule / Couple avec une personne à charge :
+					{{result.city.withOne }}
+					€</li>
+				<li>Seule / Couple avec deux personnes à charge :
+					{{result.city.withTwo }}
+					€</li>
+				<li>Seule / Couple avec trois personnes à charge :
+					{{result.city.withThree }}
+					€</li>
+				<li>Seule / Couple avec quatre personnes à charge :
+					{{result.city.withFour }}
+					€</li>
+			</ul>
+			<hr>
+			Loyer maximum mensuel :
+			{{ result.maxPrice }}
+			€
+			<br>
+			Remise sur impôts à 6 ans :
+			{{ result.sixYears }}
+			€ (soit
+			{{ result.sixYears / 6 }}
+			€ par an)
+			<br>
+			Remise sur impôts à 9 ans :
+			{{ result.nineYears }}
+			€ (soit
+			{{ result.nineYears / 9 }}
+			€ par an)
+			<br>
+			Remise sur impôts à 12 ans :
+			{{ result.twelveYears }}
+			€ (soit
+			{{ result.twelveYears / 12 }}
+			€ par an)
+		</div>
+
+	{% endif %}
+
+	<div class="jumbotron">
+		<h1 class="display-3">Simulateur Pinel</h1>
+		{{ form_start(form) }}
+
+		{{ form_widget(form) }}
+
+		<button type="submit" class="btn btn-primary btn-lg">SIMULER</button>
+
+		{{ form_end(form) }}
+
+	</div>
+
+
+{% endblock %}
