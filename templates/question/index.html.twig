@@ -39,23 +39,52 @@
 			{{ result.maxPrice }}
 			€
 			<br>
-			Remise sur impôts à 6 ans :
-			{{ result.sixYears }}
+			<strong>Engagement à 6 ans :</strong><br>
+			Remise sur impots :
+			{{ result.sixYears.amount }}
 			€ (soit
-			{{ result.sixYears / 6 }}
+			{{ result.sixYears.amountPerYear }}
 			€ par an)
 			<br>
-			Remise sur impôts à 9 ans :
-			{{ result.nineYears }}
+			Vos impots :
+			{{ result.sixYears.finalTaxes }}
+			€
+			<br>
+			<strong>Engagement à 9 ans :</strong><br>
+			Remise sur impots :
+			{{ result.nineYears.amount }}
 			€ (soit
-			{{ result.nineYears / 9 }}
+			{{ result.nineYears.amountPerYear }}
 			€ par an)
 			<br>
-			Remise sur impôts à 12 ans :
-			{{ result.twelveYears }}
+			Vos impots :
+			{{ result.nineYears.finalTaxes }}
+			€
+			<br>
+			<strong>Engagement à 12 ans :</strong><br>
+			<strong>Les 9 premières années :</strong><br>
+			Remise sur impots :
+			{{ result.twelveYearsFirstNine.amount }}
 			€ (soit
-			{{ result.twelveYears / 12 }}
+			{{ result.twelveYearsFirstNine.amountPerYear }}
 			€ par an)
+			<br>
+			Vos impots :
+			{{ result.twelveYearsFirstNine.finalTaxes }}
+			€
+			<br>
+			<strong>Les 3 dernières années :</strong><br>
+			Remise sur impots :
+			{{ result.twelveYearsLastThree.amount }}
+			€ (soit
+			{{ result.twelveYearsLastThree.amountPerYear }}
+			€ par an)
+			<br>
+			Vos impots :
+			{{ result.twelveYearsLastThree.finalTaxes }}
+			€
+
+
 		</div>
 
 	{% endif %}

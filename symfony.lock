@@ -105,8 +105,14 @@
     "egulias/email-validator": {
         "version": "2.1.13"
     },
+    "fzaninotto/faker": {
+        "version": "v1.9.1"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
+    },
+    "liorchamla/symfony-test-helpers": {
+        "version": "dev-master"
     },
     "monolog/monolog": {
         "version": "2.0.2"

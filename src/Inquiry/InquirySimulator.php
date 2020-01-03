@@ -4,6 +4,7 @@ namespace App\Inquiry;
 
 use App\Inquiry\ValueObject\Inquiry;
 use App\Inquiry\ValueObject\InquiryResult;
+use App\Inquiry\ValueObject\Reduction;
 
 class InquirySimulator
 {
@@ -13,11 +14,16 @@ class InquirySimulator
 
         $coefficient = (float) bcdiv(0.7 + (19 / $inquiry->surface), 1, 3);
 
+        $twelve9First = $inquiry->value * ($city->getTwelveYears() - 3) / 100;
+        $twelve3Last = $inquiry->value * (3 / 100);
+
         return (new InquiryResult())
             ->setMaxPrice($coefficient * $inquiry->surface * ($city->getMaxPrice() / 100))
-            ->setSixYears($inquiry->value * $city->getSixYears() / 100)
-            ->setNineYears($inquiry->value * $city->getNineYears() / 100)
-            ->setTwelveYears($inquiry->value * $city->getTwelveYears() / 100)
-            ->setCity($city);
+            ->setSixYears(new Reduction($inquiry->value * $city->getSixYears() / 100, 6, $inquiry->taxesAvg))
+            ->setNineYears(new Reduction($inquiry->value * $city->getNineYears() / 100, 9, $inquiry->taxesAvg))
+            ->setTwelveYearsFirstNine(new Reduction($twelve9First, 9, $inquiry->taxesAvg))
+            ->setTwelveYearsLastThree(new Reduction($twelve3Last, 3, $inquiry->taxesAvg))
+            ->setCity($city)
+            ->setInquiry($inquiry);
     }
 }

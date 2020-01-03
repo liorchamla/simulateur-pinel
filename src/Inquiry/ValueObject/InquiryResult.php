@@ -9,17 +9,23 @@ class InquiryResult
     /** @var float */
     protected $maxPrice;
 
-    /** @var float */
+    /** @var Reduction */
     protected $sixYears;
 
-    /** @var float */
+    /** @var Reduction */
     protected $nineYears;
 
-    /** @var float */
-    protected $twelveYears;
+    /** @var Reduction */
+    protected $twelveYearsFirstNine;
+
+    /** @var Reduction */
+    protected $twelveYearsLastThree;
 
     /** @var City */
     protected $city;
+
+    /** @var Inquiry */
+    protected $inquiry;
 
     /**
      * Get the value of maxPrice
@@ -37,6 +43,46 @@ class InquiryResult
     public function setMaxPrice($maxPrice)
     {
         $this->maxPrice = $maxPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of city
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * Set the value of city
+     *
+     * @return  self
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of inquiry
+     */
+    public function getInquiry()
+    {
+        return $this->inquiry;
+    }
+
+    /**
+     * Set the value of inquiry
+     *
+     * @return  self
+     */
+    public function setInquiry($inquiry)
+    {
+        $this->inquiry = $inquiry;
 
         return $this;
     }
@@ -82,41 +128,41 @@ class InquiryResult
     }
 
     /**
-     * Get the value of twelveYears
+     * Get the value of twelveYearsFirstNine
      */
-    public function getTwelveYears()
+    public function getTwelveYearsFirstNine()
     {
-        return $this->twelveYears;
+        return $this->twelveYearsFirstNine;
     }
 
     /**
-     * Set the value of twelveYears
+     * Set the value of twelveYearsFirstNine
      *
      * @return  self
      */
-    public function setTwelveYears($twelveYears)
+    public function setTwelveYearsFirstNine($twelveYearsFirstNine)
     {
-        $this->twelveYears = $twelveYears;
+        $this->twelveYearsFirstNine = $twelveYearsFirstNine;
 
         return $this;
     }
 
     /**
-     * Get the value of city
+     * Get the value of twelveYearsLastThree
      */
-    public function getCity()
+    public function getTwelveYearsLastThree()
     {
-        return $this->city;
+        return $this->twelveYearsLastThree;
     }
 
     /**
-     * Set the value of city
+     * Set the value of twelveYearsLastThree
      *
      * @return  self
      */
-    public function setCity($city)
+    public function setTwelveYearsLastThree($twelveYearsLastThree)
     {
-        $this->city = $city;
+        $this->twelveYearsLastThree = $twelveYearsLastThree;
 
         return $this;
     }
