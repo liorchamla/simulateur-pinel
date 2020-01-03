@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class QuestionController extends AbstractController
 {
     /**
-     * @Route("/", name="question")
+     * @Route("/defiscaliser", name="defiscalisation_form")
      */
     public function index(Request $request, InquirySimulator $inquirySimulator, CityRepository $cityRepository)
     {

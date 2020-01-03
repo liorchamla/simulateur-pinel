@@ -19,6 +19,11 @@ class Reduction
     /** @var int */
     protected $years;
 
+    public static function mapFromInquiry(Inquiry $inquiry, int $years)
+    {
+        return new self($inquiry->value * ($inquiry->city->getYears($years) / 100), $years, $inquiry->taxesAvg);
+    }
+
     public function __construct(float $amount, int $years, float $taxesAvg)
     {
         $this->setAmount($amount)

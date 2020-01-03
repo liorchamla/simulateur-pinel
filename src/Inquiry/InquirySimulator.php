@@ -19,8 +19,8 @@ class InquirySimulator
 
         return (new InquiryResult())
             ->setMaxPrice($coefficient * $inquiry->surface * ($city->getMaxPrice() / 100))
-            ->setSixYears(new Reduction($inquiry->value * $city->getSixYears() / 100, 6, $inquiry->taxesAvg))
-            ->setNineYears(new Reduction($inquiry->value * $city->getNineYears() / 100, 9, $inquiry->taxesAvg))
+            ->setSixYears(Reduction::mapFromInquiry($inquiry, 6))
+            ->setNineYears(Reduction::mapFromInquiry($inquiry, 9))
             ->setTwelveYearsFirstNine(new Reduction($twelve9First, 9, $inquiry->taxesAvg))
             ->setTwelveYearsLastThree(new Reduction($twelve3Last, 3, $inquiry->taxesAvg))
             ->setCity($city)

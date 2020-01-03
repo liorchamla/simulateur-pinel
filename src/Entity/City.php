@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CityRepository")
@@ -80,6 +81,22 @@ class City
      * @ORM\Column(type="integer")
      */
     private $twelveYears;
+
+    public function getYears(int $years)
+    {
+        if (!in_array($years, [6, 9, 12])) {
+            throw new Exception("Il n'existe pas de données pour $years ans");
+        }
+
+        switch ($years) {
+            case 6:
+                return $this->sixYears;
+            case 9:
+                return $this->nineYears;
+            case 12:
+                return $this->twelveYears;
+        }
+    }
 
     public function getId(): ?int
     {
