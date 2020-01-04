@@ -2,6 +2,7 @@
 
 namespace App\Inquiry;
 
+use App\Inquiry\ValueObject\EncouragementLevel;
 use App\Inquiry\ValueObject\Inquiry;
 use App\Inquiry\ValueObject\InquiryResult;
 use App\Inquiry\ValueObject\Reduction;
@@ -24,6 +25,7 @@ class InquirySimulator
             ->setTwelveYearsFirstNine(new Reduction($twelve9First, 9, $inquiry->taxesAvg))
             ->setTwelveYearsLastThree(new Reduction($twelve3Last, 3, $inquiry->taxesAvg))
             ->setCity($city)
-            ->setInquiry($inquiry);
+            ->setInquiry($inquiry)
+            ->setEncouragementLevel(EncouragementLevel::ENCOURAGEMENT_LOW);
     }
 }

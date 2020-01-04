@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\InquiryType;
 use App\Inquiry\InquirySimulator;
+use App\Inquiry\ValueObject\EncouragementLevel;
 use App\Repository\CityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

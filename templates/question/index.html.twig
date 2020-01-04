@@ -9,186 +9,226 @@
 			color: white;
 		}
 	</style>
-	<div class="row justify-content-center">
+	<div class="row justify-content-center mb-5">
 		<div class="col-lg-12">
 			<h1 class="display-1  text-white">Avec Licorne
-				<span>Défiscalisez simlement !</span>
+				<span>Défiscalisez simplement !</span>
 			</h1>
+
+			{% if not result %}
+				<p class="lead text-white">En quelques questions, Licorne démystifie la complexité du dispositif Pinel et vous donne même son avis sur son efficacité par rapport à votre situation actuelle !</p>
+			{% endif %}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
 
 			{% if result %}
 				<div class="inquiry-result">
-
-					<h4 class="text-white mt-5">
-						👏🎉 Bravo ! Nous vous encourageons pour ce projet !
-					</h4>
-
-
-					<p class="lead pb-5">En achetant un bien de
-						{{result.inquiry.value}}
-						€ à
+					<p class="lead">
 						{{ result.inquiry.city.name}}
-						(Zone
-						{{result.inquiry.city.zone}}) vous pourriez louer pour un loyer maximal de
-						<strong>{{result.maxPrice}}
+						se situant en Zone
+						{{result.inquiry.city.zone}}, vous pourriez louer votre bien de
+						{{ result.inquiry.surface}}m² pour un loyer maximal de
+						<strong>{{result.maxPrice | round}}
 							€ / mois !</strong>
 					</p>
 
-					<div class="row row-grid">
-						<div class="col-lg-6">
-							<div class="card card-lift--hover shadow border-0">
-								<div class="card-body py-5">
-									<h6 class="text-primary text-uppercase">Engagement de 6 ans</h6>
-									<p class="mt-3">En vous engageant sur 6 ans,
-										<strong class="text-primary">vous ne payeriez plus
-											{{ result.sixYears.finalTaxes == 0 ? " d'impots du tout" : "  que "~result.sixYears.finalTaxes~" € d'impots par an" }}
-											!</strong><br>
-										<small class="text-muted">En prenant pour référence
-											{{ result.inquiry.taxesAvg }}
-											€ d'impots par an</small>
-									</p>
+					{% set className = result.sixYears.rate >= 50 ? "success" : "warning" %}
 
-									<div>
-										<p>Remise d'impots :</p>
-										<span class="badge badge-pill badge-primary">{{result.sixYears.amount}}
-											€ sur 6 ans</span>
-										<span class="badge badge-pill badge-primary">{{result.sixYears.amountPerYear}}
-											€ par an</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-6">
-							<div class="card card-lift--hover shadow border-0">
-								<div class="card-body py-5">
-									<h6 class="text-success text-uppercase">Engagement de 9 ans</h6>
-									<p class="mt-3">En vous engageant sur 9 ans,
-										<strong class="text-success">vous ne payeriez plus
-											{{ result.nineYears.finalTaxes == 0 ? " d'impots du tout" : "  que "~result.nineYears.finalTaxes~" € d'impots par an" }}
-											!</strong><br>
-										<small class="text-muted">En prenant pour référence
-											{{ result.inquiry.taxesAvg }}
-											€ d'impots par an</small>
-									</p>
-									<div>
-										<p>Remise d'impots :</p>
-										<span class="badge badge-pill badge-success">{{result.nineYears.amount}}
-											€ sur 9 ans</span>
-										<span class="badge badge-pill badge-success">{{result.nineYears.amountPerYear}}
-											€ par an</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row mt-5">
-						<div class="col-lg-12">
-							<div class="card card-lift--hover shadow border-0">
-								<div class="card-body py-5">
-									<h6 class="text-warning text-uppercase">Engagement de 12 ans</h6>
-									<p class="mt-3">
-										En vous engageant sur 12 ans,
-										<strong class="text-warning">vous ne payeriez plus
+					<div class="alert alert-{{className}}">
+						<h4 class="text-white mt-3">
+							{% if result.sixYears.rate >= 75 %}
+								👏🎉 Bravo ! Avec une réduction d'impots de
+								{{ result.sixYears.rate | round(2)}}%, nous ne pouvons que vous encourager pour ce projet !
+							{% elseif result.sixYears.rate >= 50 %}
+								👏🎉 Wow ! La réduction d'impots serait de
+								{{ result.sixYears.rate | round(2) }}%, c'est une réduction substentielle mais on peut encore affiner !
+							{% else %}
+								😿 Aïe, la réduction de
+								{{ result.sixYears.rate | round(2) }}% ne nous semble pas assez significative, on pourrait revoir votre projet ?
+							{% endif %}
+						</h4>
 
-											{% if result.twelveYearsFirstNine.finalTaxes == 0 and result.twelveYearsLastThree.finalTaxes == 0 %}
-												d'impots du tout durant les 12 années
-											{% else %}
-												{{ result.twelveYearsFirstNine.finalTaxes == 0 ? " d'impots du tout" : "  que "~result.sixYears.finalTaxes~" € d'impots par an" }}
-												les 9 premières années puis
-												{{ result.twelveYearsLastThree.finalTaxes }}
-												€ d'impots les 3 dernières années !
-											{% endif %}
-										</strong><br>
-										<small class="text-muted">En prenant pour référence
-											{{ result.inquiry.taxesAvg }}
-											€ d'impots par an</small>
-									</p>
-									<div class="row">
-										<div class="col-lg-6">
-											<p>Remise d'impots les 9 premières années :</p>
-											<span class="badge badge-pill badge-warning">{{result.twelveYearsFirstNine.amount}}
-												€ sur 9 ans</span>
-											<span class="badge badge-pill badge-warning">{{result.twelveYearsFirstNine.amountPerYear}}
-												€ par an</span>
-										</div>
-										<div class="col-lg-6">
-											<p>Remise d'impots les 3 dernières années :</p>
-											<span class="badge badge-pill badge-warning">{{result.twelveYearsLastThree.amount}}
-												€ sur 3 ans</span>
-											<span class="badge badge-pill badge-warning">{{result.twelveYearsLastThree.amountPerYear}}
-												€ par an</span>
-										</div>
-									</div>
-								</div>
-							</div>
+						<div class="btn-wrapper mt-4">
+							<a href="#" class="btn btn-primary btn-icon mb-3 mb-sm-0 btn-lg">
+								<span class="btn-inner--icon">
+									<i class="fa fa-phone"></i>
+								</span>
+								<span class="btn-inner--text">On s'appelle !</span>
+							</a>
+							<a href="{{ path('defiscalisation_form') }}" class="btn btn-white btn-icon mb-3 mb-sm-0 btn-lg">
+								<span class="btn-inner--icon">
+									<i class="fa fa-undo"></i>
+								</span>
+								<span class="btn-inner--text">Refaire la simulation</span>
+							</a>
 						</div>
 					</div>
 
+					<p class="lead pb-5">
+						La loi Pinel vous permet de réduire vos impôts sur 6, 9 ou 12 ans ! Vous hésitez sur la durée ? Pas de panique, vous pouvez commencer par une des deux durées inférieures à 12 ans et décider de prolonger par la suite.
+					</p>
+				</div>
+			</div>
+		</div>
 
-					<div class="alert alert-danger mt-5">
-						<p>
-							<strong>Attention ! Les locataires devraient respecter ces limites de revenus :
-							</strong>
+		<div class="row row-grid">
+			<div class="col-lg-6">
+				<div class="card card-lift--hover shadow border-0">
+					<div class="card-body py-5">
+						<h6 class="text-primary text-uppercase">Engagement de 6 ans</h6>
+						<p class="mt-3">En vous engageant sur 6 ans, en prenant pour référence
+							{{ result.inquiry.taxesAvg }}
+							€ d'impots par an,
+							<strong class="text-primary">vous ne payeriez plus
+								{{ result.sixYears.finalTaxes == 0 ? " d'impots du tout" : "  que "~result.sixYears.finalTaxes~" € d'impots par an" }}
+								!</strong>
 						</p>
-						<ul>
-							<li>Personne seule :
-								<strong>{{ result.inquiry.city.alone }}</strong>
-							</li>
 
-							<li>Couple :
-								<strong>{{ result.inquiry.city.couple }}
-									€</strong>
-							</li>
-
-							<li>Personne seule ou couple avec une personne à charge :
-								<strong>{{ result.inquiry.city.withOne }}
-									€</strong>
-							</li>
-							<li>Personne seule ou couple avec deux personnes à charge :
-								<strong>{{ result.inquiry.city.withTwo }}
-									€</strong>
-							</li>
-
-							<li>Personne seule ou couple avec trois personnes à charge :
-								<strong>{{ result.inquiry.city.withThree }}
-									€</strong>
-							</li>
-
-							<li>Personne seule ou couple avec quatre personnes à charge :
-								<strong>{{ result.inquiry.city.withFour }}
-									€</strong>
-							</li>
-
-						</ul>
+						<div>
+							<p>La réduction d'impots maximum pour ce bien est de
+								<span class="badge badge-pill badge-primary">{{result.sixYears.amount}}
+									€ sur 6 ans</span>
+								soit
+								<span class="badge badge-pill badge-primary">{{result.sixYears.amountPerYear}}
+									€ par an</span>
+							</p>
+						</div>
 					</div>
 				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="card card-lift--hover shadow border-0">
+					<div class="card-body py-5">
+						<h6 class="text-success text-uppercase">Engagement de 9 ans</h6>
+						<p class="mt-3">En vous engageant sur 9 ans, en prenant pour référence
+							{{ result.inquiry.taxesAvg }}
+							€ d'impots par an,
+							<strong class="text-success">vous ne payeriez plus
+								{{ result.nineYears.finalTaxes == 0 ? " d'impots du tout" : "  que "~result.nineYears.finalTaxes~" € d'impots par an" }}
+								!</strong>
+						</p>
+						<div>
+							<p>La réduction d'impots maximum pour ce bien est de
+								<span class="badge badge-pill badge-success">{{result.nineYears.amount}}
+									€ sur 9 ans</span>, soit
+								<span class="badge badge-pill badge-success">{{result.nineYears.amountPerYear}}
+									€ par an</span>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row mt-5">
+			<div class="col-lg-6">
+				<div class="card card-lift--hover shadow border-0">
+					<div class="card-body py-5">
+						<h6 class="text-warning text-uppercase">Engagement de 12 ans (les 9 premières années)</h6>
+						<p class="mt-3">En vous engageant sur 12 ans, en prenant pour référence
+							{{ result.inquiry.taxesAvg }}
+							€ d'impots par an,
+							<strong class="text-warning">vous ne payeriez plus
+								{{ result.twelveYearsFirstNine.finalTaxes == 0 ? " d'impots du tout" : "  que "~result.twelveYearsFirstNine.finalTaxes~" € d'impots par an" }}
+								les 9 premières années !</strong>
+						</p>
+						<div>
+							<p>La réduction d'impots maximum pour ce bien est de
+								<span class="badge badge-pill badge-warning">{{result.twelveYearsFirstNine.amount}}
+									€ sur 9 ans</span>, soit
+								<span class="badge badge-pill badge-warning">{{result.twelveYearsFirstNine.amountPerYear}}
+									€ par an</span>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="card card-lift--hover shadow border-0">
+					<div class="card-body py-5">
+						<h6 class="text-warning text-uppercase">Engagement de 12 ans (les 3 dernières années)</h6>
+						<p class="mt-3">En vous engageant sur 12 ans, en prenant pour référence
+							{{ result.inquiry.taxesAvg }}
+							€ d'impots par an,
+							<strong class="text-warning">vous ne payeriez plus
+								{{ result.twelveYearsLastThree.finalTaxes == 0 ? " d'impots du tout" : "  que "~result.twelveYearsLastThree.finalTaxes~" € d'impots par an" }}
+								les 3 dernières années !</strong>
+						</p>
+						<div>
+							<p>La réduction d'impots maximum pour ce bien est de
+								<span class="badge badge-pill badge-warning">{{result.twelveYearsLastThree.amount}}
+									€ sur 3 ans</span>, soit
+								<span class="badge badge-pill badge-warning">{{result.twelveYearsLastThree.amountPerYear}}
+									€ par an</span>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-				<hr>
-				<h2 class="text-white">Refaire une simulation ?</h2>
-			{% endif %}
 
-			{{ form_start(form) }}
+		<div class="alert alert-danger mt-5">
+			<p>
+				<strong>Attention ! Les locataires devraient respecter ces limites de revenus :
+				</strong>
+			</p>
+			<ul>
+				<li>Personne seule :
+					<strong>{{ result.inquiry.city.alone }}</strong>
+				</li>
 
-			<p class="lead  text-white">Tout d'abord, dans quelle commune / ville souhaitez vous investir ?</p>
-			{{ form_row(form.city, {'label': false}) }}
+				<li>Couple :
+					<strong>{{ result.inquiry.city.couple }}
+						€</strong>
+				</li>
 
-			<p class="lead  text-white">Quel est le montant que vous pourriez investir ?</p>
-			{{ form_row(form.value, {'label': false})}}
+				<li>Personne seule ou couple avec une personne à charge :
+					<strong>{{ result.inquiry.city.withOne }}
+						€</strong>
+				</li>
+				<li>Personne seule ou couple avec deux personnes à charge :
+					<strong>{{ result.inquiry.city.withTwo }}
+						€</strong>
+				</li>
 
-			<p class="lead  text-white">Quelle sera la surface du bien que vous recherchez (en m²) ?</p>
-			{{ form_row(form.surface, {'label': false})}}
+				<li>Personne seule ou couple avec trois personnes à charge :
+					<strong>{{ result.inquiry.city.withThree }}
+						€</strong>
+				</li>
 
-			<p class="lead  text-white">Un peu de calcul : quelle somme d'impots payez vous chaque année (prenez la moyenne des 3 dernières années) ?</p>
-			{{ form_row(form.taxesAvg, {'label': false})}}
+				<li>Personne seule ou couple avec quatre personnes à charge :
+					<strong>{{ result.inquiry.city.withFour }}
+						€</strong>
+				</li>
 
-			<button type="submit" class="btn btn-icon btn-success btn-lg">
-				<span class="btn-inner--icon">
-					<i class="ni ni-check-bold"></i>
-				</span>
-				<span class="btn-inner--text">Lancer la simulation</span>
-			</button>
-
-			{{ form_end(form, {'rest': false}) }}
-
+			</ul>
 		</div>
 	</div>
-{% endblock %}
+{% else %}
+
+	{{ form_start(form) }}
+
+	<p class="lead  text-white">Tout d'abord, dans quelle commune / ville souhaitez vous investir ?</p>
+	{{ form_row(form.city, {'label': false}) }}
+
+	<p class="lead  text-white">Quel est le montant que vous pourriez investir ?</p>
+	{{ form_row(form.value, {'label': false})}}
+
+	<p class="lead  text-white">Quelle sera la surface du bien que vous recherchez (en m²) ?</p>
+	{{ form_row(form.surface, {'label': false})}}
+
+	<p class="lead  text-white">Un peu de calcul : quelle somme d'impots payez vous chaque année (prenez la moyenne des 3 dernières années) ?</p>
+	{{ form_row(form.taxesAvg, {'label': false})}}
+
+	<button type="submit" class="btn btn-icon btn-success btn-lg">
+		<span class="btn-inner--icon">
+			<i class="ni ni-check-bold"></i>
+		</span>
+		<span class="btn-inner--text">Lancer la simulation</span>
+	</button>
+
+	{{ form_end(form, {'rest': false}) }}
+
+{% endif %}</div></div>{% endblock %}

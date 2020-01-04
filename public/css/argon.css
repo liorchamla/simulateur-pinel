@@ -18998,7 +18998,8 @@ textarea[resize='horizontal']
 }
 .section-shaped .shape-style-1.shape-default
 {
-    background: linear-gradient(150deg, #7795f8 15%, #6772e5 70%, #555abf 94%);
+    /* background: linear-gradient(150deg, #7795f8 15%, #6772e5 70%, #555abf 94%); */
+    background: linear-gradient(150deg, #313233 15%, #030304 70%, #050615 94%);
 }
 .section-shaped .shape-style-1.shape-light
 {

@@ -19,6 +19,12 @@ class Reduction
     /** @var int */
     protected $years;
 
+    /** @var int */
+    protected $encouragementLevel;
+
+    /** @var float */
+    protected $rate;
+
     public static function mapFromInquiry(Inquiry $inquiry, int $years)
     {
         return new self($inquiry->value * ($inquiry->city->getYears($years) / 100), $years, $inquiry->taxesAvg);
@@ -29,7 +35,27 @@ class Reduction
         $this->setAmount($amount)
             ->setYears($years)
             ->setAmountPerYear($amount / $years)
-            ->setTaxesAvg($taxesAvg);
+            ->setTaxesAvg($taxesAvg)
+            ->calculateRateAndEncouragementLevel();
+    }
+
+    protected function calculateRateAndEncouragementLevel()
+    {
+        $this->rate = 100 - ($this->finalTaxes / $this->taxesAvg * 100);
+
+        if ($this->rate >= 75) {
+            $this->encouragementLevel = EncouragementLevel::ENCOURAGEMENT_HIGH;
+        }
+
+        if ($this->rate >= 50) {
+            $this->encouragementLevel = EncouragementLevel::ENCOURAGEMENT_NORMAL;
+        }
+
+        if ($this->rate < 50) {
+            $this->encouragementLevel = EncouragementLevel::ENCOURAGEMENT_LOW;
+        }
+
+        return $this;
     }
 
     /**
@@ -134,6 +160,46 @@ class Reduction
         $this->taxesAvg = $taxesAvg;
 
         $this->setFinalTaxes($taxesAvg - $this->amountPerYear);
+
+        return $this;
+    }
+
+    /**
+     * Get the value of encouragementLevel
+     */
+    public function getEncouragementLevel()
+    {
+        return $this->encouragementLevel;
+    }
+
+    /**
+     * Set the value of encouragementLevel
+     *
+     * @return  self
+     */
+    public function setEncouragementLevel($encouragementLevel)
+    {
+        $this->encouragementLevel = $encouragementLevel;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of rate
+     */
+    public function getRate()
+    {
+        return $this->rate;
+    }
+
+    /**
+     * Set the value of rate
+     *
+     * @return  self
+     */
+    public function setRate($rate)
+    {
+        $this->rate = $rate;
 
         return $this;
     }

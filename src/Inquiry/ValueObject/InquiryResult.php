@@ -27,6 +27,9 @@ class InquiryResult
     /** @var Inquiry */
     protected $inquiry;
 
+    /** @var int */
+    protected $encouragementLevel;
+
     /**
      * Get the value of maxPrice
      */
@@ -163,6 +166,26 @@ class InquiryResult
     public function setTwelveYearsLastThree($twelveYearsLastThree)
     {
         $this->twelveYearsLastThree = $twelveYearsLastThree;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of encouragementLevel
+     */
+    public function getEncouragementLevel()
+    {
+        return $this->encouragementLevel;
+    }
+
+    /**
+     * Set the value of encouragementLevel
+     *
+     * @return  self
+     */
+    public function setEncouragementLevel($encouragementLevel)
+    {
+        $this->encouragementLevel = $encouragementLevel;
 
         return $this;
     }
