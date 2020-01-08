@@ -5,6 +5,9 @@ namespace App\Inquiry\ValueObject;
 class Reduction
 {
     /** @var float */
+    protected $realEconomyPerYear;
+
+    /** @var float */
     protected $amount;
 
     /** @var float */
@@ -25,6 +28,9 @@ class Reduction
     /** @var float */
     protected $rate;
 
+    /** @var float */
+    protected $realRate;
+
     public static function mapFromInquiry(Inquiry $inquiry, int $years)
     {
         return new self($inquiry->value * ($inquiry->city->getYears($years) / 100), $years, $inquiry->taxesAvg);
@@ -36,12 +42,28 @@ class Reduction
             ->setYears($years)
             ->setAmountPerYear($amount / $years)
             ->setTaxesAvg($taxesAvg)
-            ->calculateRateAndEncouragementLevel();
+            ->calculateRateAndEncouragementLevel()
+            ->calculateRealEconomyPerYear();
+    }
+
+    protected function calculateRealEconomyPerYear()
+    {
+        if ($this->taxesAvg > $this->amountPerYear) {
+            $this->realEconomyPerYear = $this->amountPerYear;
+        } else {
+            $this->realEconomyPerYear = $this->taxesAvg;
+        }
     }
 
     protected function calculateRateAndEncouragementLevel()
     {
-        $this->rate = 100 - ($this->finalTaxes / $this->taxesAvg * 100);
+        $this->realRate = ($this->taxesAvg / $this->amountPerYear * 100);
+
+        if ($this->realRate > 100) {
+            $this->rate = 100;
+        } else {
+            $this->rate = $this->realRate;
+        }
 
         if ($this->rate >= 75) {
             $this->encouragementLevel = EncouragementLevel::ENCOURAGEMENT_HIGH;
@@ -200,6 +222,46 @@ class Reduction
     public function setRate($rate)
     {
         $this->rate = $rate;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of realEconomyPerYear
+     */
+    public function getRealEconomyPerYear()
+    {
+        return $this->realEconomyPerYear;
+    }
+
+    /**
+     * Set the value of realEconomyPerYear
+     *
+     * @return  self
+     */
+    public function setRealEconomyPerYear($realEconomyPerYear)
+    {
+        $this->realEconomyPerYear = $realEconomyPerYear;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of realRate
+     */
+    public function getRealRate()
+    {
+        return $this->realRate;
+    }
+
+    /**
+     * Set the value of realRate
+     *
+     * @return  self
+     */
+    public function setRealRate($realRate)
+    {
+        $this->realRate = $realRate;
 
         return $this;
     }

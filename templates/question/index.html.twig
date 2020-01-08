@@ -38,15 +38,20 @@
 
 					<div class="alert alert-{{className}}">
 						<h4 class="text-white mt-3">
-							{% if result.sixYears.rate >= 75 %}
-								👏🎉 Bravo ! Avec une réduction d'impots de
-								{{ result.sixYears.rate | round(2)}}%, nous ne pouvons que vous encourager pour ce projet !
-							{% elseif result.sixYears.rate >= 50 %}
-								👏🎉 Wow ! La réduction d'impots serait de
-								{{ result.sixYears.rate | round(2) }}%, c'est une réduction substentielle mais on peut encore affiner !
+							{% if result.nineYears.rate >= 75 %}
+								👏🎉 Bravo ! Vous profitez de
+								{{ result.nineYears.rate | round(2)}}% du maximum de réduction possible pour ce bien, nous ne pouvons que vous encourager pour ce projet !
+								{% if result.nineYears.realRate > 100 %}
+									<br>
+									Vous pourriez même défiscaliser d'avantage en affinant votre recherche pour un bien plus adapté !
+								{% endif %}
+
+							{% elseif result.nineYears.rate >= 50 %}
+								👏🎉 Wow ! Vous profitez de
+								{{ result.nineYears.rate | round(2) }}% du maximum de réduction possible pour ce bien, c'est pas mal mais on doit pouvoir choisir un bien plus adapté !
 							{% else %}
-								😿 Aïe, la réduction de
-								{{ result.sixYears.rate | round(2) }}% ne nous semble pas assez significative, on pourrait revoir votre projet ?
+								😿 Aïe, vous ne profitez ici que de
+								{{ result.nineYears.rate | round(2) }}% du maximum de réduction possible pour ce bien, ce bien ne nous semble pas adapté à une défiscalisation optimale ! On pourrait revoir votre projet ?
 							{% endif %}
 						</h4>
 
@@ -92,6 +97,10 @@
 									€ sur 6 ans</span>
 								soit
 								<span class="badge badge-pill badge-primary">{{result.sixYears.amountPerYear}}
+									€ par an</span>, vous allez donc économiser
+								<span class="badge badge-pill badge-primary">{{result.sixYears.realEconomyPerYear * 6}}
+									€ sur 6 ans</span>, soit
+								<span class="badge badge-pill badge-primary">{{ result.sixYears.realEconomyPerYear }}
 									€ par an</span>
 							</p>
 						</div>
@@ -114,6 +123,10 @@
 								<span class="badge badge-pill badge-success">{{result.nineYears.amount}}
 									€ sur 9 ans</span>, soit
 								<span class="badge badge-pill badge-success">{{result.nineYears.amountPerYear}}
+									€ par an</span>, vous allez donc économiser
+								<span class="badge badge-pill badge-success">{{result.nineYears.realEconomyPerYear * 9}}
+									€ sur 6 ans</span>, soit
+								<span class="badge badge-pill badge-success">{{ result.nineYears.realEconomyPerYear }}
 									€ par an</span>
 							</p>
 						</div>
@@ -138,6 +151,10 @@
 								<span class="badge badge-pill badge-warning">{{result.twelveYearsFirstNine.amount}}
 									€ sur 9 ans</span>, soit
 								<span class="badge badge-pill badge-warning">{{result.twelveYearsFirstNine.amountPerYear}}
+									€ par an</span>, vous allez donc économiser
+								<span class="badge badge-pill badge-warning">{{result.twelveYearsFirstNine.realEconomyPerYear * 9}}
+									€ sur 9 ans</span>, soit
+								<span class="badge badge-pill badge-warning">{{ result.twelveYearsFirstNine.realEconomyPerYear }}
 									€ par an</span>
 							</p>
 						</div>
@@ -160,6 +177,10 @@
 								<span class="badge badge-pill badge-warning">{{result.twelveYearsLastThree.amount}}
 									€ sur 3 ans</span>, soit
 								<span class="badge badge-pill badge-warning">{{result.twelveYearsLastThree.amountPerYear}}
+									€ par an</span>, vous allez donc économiser
+								<span class="badge badge-pill badge-warning">{{result.twelveYearsLastThree.realEconomyPerYear * 3}}
+									€ sur 3 ans</span>, soit
+								<span class="badge badge-pill badge-warning">{{ result.twelveYearsLastThree.realEconomyPerYear }}
 									€ par an</span>
 							</p>
 						</div>
